@@ -84,7 +84,7 @@ export default function Navbar(props) {
 							<div className="d-inline-flex">
 								<img
 									src="..."
-									class="rounded float-start"
+									className="rounded float-start"
 									alt="..."
 								/>
 								<span className="float-end"></span>
