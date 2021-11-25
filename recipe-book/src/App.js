@@ -1,21 +1,48 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./Components/Navbar";
+import Navbar from "./Components/Navbar/Navbar";
 import SignUp from "./Components/SignUp/SignUp";
 import SignIn from "./Components/SignIn";
 import Home from "./Components/Home/Home";
-// import { useState } from "react";
+import Users from "./Components/Users/Users";
+import { useState } from "react";
 
 function App() {
-	// const [loggedIn, setLoggedIn] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [loggedUser, setLoggedUser] = useState();
 	return (
 		<div className="App">
 			<Router>
-				<Navbar />
+				<Navbar loggedIn={loggedIn} />
 				<Routes>
-					<Route exact path="/sign-up" element={<SignUp />} />
-					<Route exact path="/sign-in" element={<SignIn />} />
 					<Route exact path="/" element={<Home />} />
+					{loggedIn ? (
+						""
+					) : (
+						<>
+							<Route
+								exact
+								path="/sign-up"
+								element={<SignUp setLoggedIn={setLoggedIn} />}
+							/>
+							<Route
+								exact
+								path="/sign-in"
+								element={<SignIn setLoggedIn={setLoggedIn} />}
+							/>
+						</>
+					)}
+					<Route
+						exact
+						path="/sign-up"
+						element={<SignUp setLoggedIn={setLoggedIn} />}
+					/>
+					<Route
+						exact
+						path="/sign-in"
+						element={<SignIn setLoggedIn={setLoggedIn} />}
+					/>
+					<Route exact path="/users" element={<Users />} />
 				</Routes>
 			</Router>
 		</div>

@@ -15,15 +15,21 @@ export default function SignUp(props) {
 		let emailId = document.querySelector("#emailid").value;
 		let username = document.querySelector("#username").value;
 		let password = document.querySelector("#password").value;
+		let pfp = document.querySelector("#pfp").files;
 		let data = {
 			emailId: emailId,
 			username: username,
 			password: password,
+			profile_pic: pfp,
 		};
 		axios
 			.post("http://localhost:8000/users/", data)
 			.then((response) => {
 				// console.log(response);
+				let setLoggedIn = props.setLoggedIn;
+				let setLoggedUser = props.setLoggedUser;
+				setLoggedIn(true);
+				setLoggedUser(data);
 				navigate("/?signedUp=true");
 			})
 			.catch((error) => {
@@ -34,13 +40,14 @@ export default function SignUp(props) {
 		<>
 			{error ? (
 				<div
-					class="alert alert-danger alert-dismissible fade show"
+					className="alert alert-danger alert-dismissible fade show"
 					role="alert">
 					<strong>There has been an error!!</strong> Check if you have
-					already signed up.
+					already signed up. If your credentials are correct then we
+					are facing some internal errors. Sorry for the problems. :(
 					<button
 						type="button"
-						class="btn-close"
+						className="btn-close"
 						data-bs-dismiss="alert"
 						aria-label="Close"></button>
 				</div>
@@ -97,17 +104,16 @@ export default function SignUp(props) {
 								id="togglePassword"></i>
 						</label>
 					</div>
-					<div className="mb-3 form-check">
-						<input
-							type="checkbox"
-							className="form-check-input"
-							id="exampleCheck1"
-						/>
-						<label
-							className="form-check-label"
-							htmlFor="exampleCheck1">
-							Remember Me
+					<div className="mb-3">
+						<label htmlFor="pfp" className="form-label">
+							Profile Picture (Optional)
 						</label>
+						<input
+							type="file"
+							className="form-control"
+							id="pfp"
+							alt="select image"
+						/>
 					</div>
 					<button
 						type="submit"

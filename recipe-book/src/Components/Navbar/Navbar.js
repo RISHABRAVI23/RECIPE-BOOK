@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar(props) {
 	return (
 		<div>
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,7 +53,7 @@ export default function Navbar() {
 								</Link>
 							</li>
 							<li className="nav-item">
-								<Link className="nav-link" to="/">
+								<Link className="nav-link" to="/users">
 									Users
 								</Link>
 							</li>
@@ -80,19 +80,30 @@ export default function Navbar() {
 								</ul>
 							</li>
 						</ul>
-						<form className="container-fluid d-flex justify-content-end">
-							<Link
-								className="btn btn-outline-success me-2"
-								to="/sign-up">
-								Sign Up
-							</Link>
-							<Link
-								className="btn btn-sm btn-outline-secondary"
-								type="button"
-								to="/sign-in">
-								Sign In
-							</Link>
-						</form>
+						{props.loggedIn ? (
+							<div className="d-inline-flex">
+								<img
+									src="..."
+									class="rounded float-start"
+									alt="..."
+								/>
+								<span className="float-end"></span>
+							</div>
+						) : (
+							<form className="container-fluid d-flex justify-content-end">
+								<Link
+									className="btn btn-outline-success me-2"
+									to="/sign-up">
+									Sign Up
+								</Link>
+								<Link
+									className="btn btn-sm btn-outline-secondary"
+									type="button"
+									to="/sign-in">
+									Sign In
+								</Link>
+							</form>
+						)}
 					</div>
 				</div>
 			</nav>
