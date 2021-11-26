@@ -27,6 +27,22 @@ export default function Home() {
 			) : (
 				""
 			)}
+			{params === "?signedIn=true" ? (
+				<div
+					className="alert alert-success alert-dismissible fade show my-3"
+					role="alert">
+					<strong>Sign In Successful!!!</strong> You can now create
+					and store your recipes here anytime. Enjoy!!!
+					<button
+						type="button"
+						className="btn-close"
+						data-bs-dismiss="alert"
+						aria-label="Close"
+						onClick={handleOnclick}></button>
+				</div>
+			) : (
+				""
+			)}
 			Recipes will come here
 		</div>
 	);

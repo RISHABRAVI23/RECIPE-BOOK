@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
 	const [passShown, setPassShown] = useState(false);
 	const [error, setError] = useState(false);
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	function showPass() {
 		setPassShown(!passShown);
 	}
@@ -18,7 +18,11 @@ export default function SignIn() {
 		axios
 			.get(`http://localhost:8000/users/${username}`)
 			.then((response) => {
-				console.log(response.data);
+				let user = response.data;
+				if (user.password === password) {
+					// Add a cookie here
+					navigate("/?signedIn=true");
+				}
 			});
 	}
 
