@@ -17,6 +17,11 @@ export default function Users() {
 						console.log(user);
 				  })
 				: ""}
+			<div class="card">
+				<div class="card-body">
+					Use this kinda element to show users
+				</div>
+			</div>
 		</div>
 	);
 }

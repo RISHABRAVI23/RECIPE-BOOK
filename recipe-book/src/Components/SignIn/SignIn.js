@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function SignIn(props) {
 	const [passShown, setPassShown] = useState(false);
 	const [error, setError] = useState(false);
 	const navigate = useNavigate();
@@ -20,10 +20,12 @@ export default function SignIn() {
 			.then((response) => {
 				let user = response.data;
 				if (user.password === password) {
-					// Add a cookie here
+					props.setLoggedIn(true);
+					// Add a cookie here using js-cookies
 					navigate("/?signedIn=true");
 				}
-			});
+			})
+			.catch((err) => setError(true));
 	}
 
 	return (
@@ -32,9 +34,10 @@ export default function SignIn() {
 				<div
 					className="alert alert-danger alert-dismissible fade show"
 					role="alert">
-					<strong>There has been an error!!</strong> Check if you have
-					already signed up. If your credentials are correct then we
-					are facing some internal errors. Sorry for the problems. :(
+					<strong>There has been an error!!</strong> Please check if
+					your credentials are correct. If so, then we might be
+					experiencing some internal server problems or some server
+					downtime. Sorry for the problems. :(
 					<button
 						type="button"
 						className="btn-close"

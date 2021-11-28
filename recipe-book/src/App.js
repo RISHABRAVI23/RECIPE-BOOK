@@ -8,7 +8,7 @@ import Users from "./Components/Users/Users";
 import { useState } from "react";
 
 function App() {
-	const [loggedIn, setLoggedIn] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(true);
 	const [loggedUser, setLoggedUser] = useState();
 	return (
 		<div className="App">
@@ -32,16 +32,6 @@ function App() {
 							/>
 						</>
 					)}
-					<Route
-						exact
-						path="/sign-up"
-						element={<SignUp setLoggedIn={setLoggedIn} />}
-					/>
-					<Route
-						exact
-						path="/sign-in"
-						element={<SignIn setLoggedIn={setLoggedIn} />}
-					/>
 					<Route exact path="/users" element={<Users />} />
 				</Routes>
 			</Router>
