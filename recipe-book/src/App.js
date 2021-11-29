@@ -9,14 +9,13 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 
 function App() {
-	// const [loggedIn, setLoggedIn] = useState(
-	// 	JSON.parse(Cookies.get("info")).loggedIn
-	// );
-	// const [loggedUser, setLoggedUser] = useState(
-	// 	JSON.parse(Cookies.get("info")).loggedUsername
-	// );
-	const [loggedIn, setLoggedIn] = useState(false);
+	function initializeLoggedIn() {}
+	const [loggedIn, setLoggedIn] = useState(initializeLoggedIn());
 	const [loggedUser, setLoggedUser] = useState();
+
+	// const [loggedIn, setLoggedIn] = useState(false);
+	// // eslint-disable-next-line no-unused-vars
+	// const [loggedUser, setLoggedUser] = useState();
 	return (
 		<div className="App">
 			<Router>
