@@ -6,14 +6,21 @@ import SignIn from "./Components/SignIn/SignIn";
 import Home from "./Components/Home/Home";
 import Users from "./Components/Users/Users";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 function App() {
-	const [loggedIn, setLoggedIn] = useState(true);
+	// const [loggedIn, setLoggedIn] = useState(
+	// 	JSON.parse(Cookies.get("info")).loggedIn
+	// );
+	// const [loggedUser, setLoggedUser] = useState(
+	// 	JSON.parse(Cookies.get("info")).loggedUsername
+	// );
+	const [loggedIn, setLoggedIn] = useState(false);
 	const [loggedUser, setLoggedUser] = useState();
 	return (
 		<div className="App">
 			<Router>
-				<Navbar loggedIn={loggedIn} />
+				<Navbar loggedIn={loggedIn} loggedUser={loggedUser} />
 				<Routes>
 					<Route exact path="/" element={<Home />} />
 					{loggedIn ? (

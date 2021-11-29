@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ShowNavUser from "./ShowNaveUser/ShowNavUser";
 
 export default function Navbar(props) {
 	return (
@@ -81,14 +82,7 @@ export default function Navbar(props) {
 							</li>
 						</ul>
 						{props.loggedIn ? (
-							<div className="d-inline-flex">
-								<img
-									src="..."
-									className="rounded float-start"
-									alt="..."
-								/>
-								<span className="float-end"></span>
-							</div>
+							<ShowNavUser loggedUser={props.loggedUser} />
 						) : (
 							<form className="container-fluid d-flex justify-content-end">
 								<Link
