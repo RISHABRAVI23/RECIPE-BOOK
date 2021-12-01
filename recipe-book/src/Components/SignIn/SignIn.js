@@ -8,6 +8,7 @@ export default function SignIn(props) {
 	const [error, setError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
 	const navigate = useNavigate();
+	document.querySelector("title").innerHTML = "Sign In | Recipe Book";
 	function showPass() {
 		setPassShown(!passShown);
 	}

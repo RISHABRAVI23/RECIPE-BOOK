@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import User from "./User/User";
 
 export default function Users() {
 	const [users, setUsers] = useState([]);
@@ -9,19 +10,12 @@ export default function Users() {
 			.get("http://localhost:8000/users/")
 			.then((response) => setUsers(response.data));
 	}, []);
+	console.log("users component");
 	return (
 		<div className="container my-3">
-			users here
-			{users !== []
-				? users.forEach((user) => {
-						console.log(user);
-				  })
-				: ""}
-			<div class="card">
-				<div class="card-body">
-					Use this kinda element to show users
-				</div>
-			</div>
+			{users.forEach((user, index) => {
+				return <User key={index + 1} username={user.username} />;
+			})}
 		</div>
 	);
 }

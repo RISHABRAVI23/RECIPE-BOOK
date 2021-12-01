@@ -5,17 +5,23 @@ import SignUp from "./Components/SignUp/SignUp";
 import SignIn from "./Components/SignIn/SignIn";
 import Home from "./Components/Home/Home";
 import Users from "./Components/Users/Users";
+import UserProfile from "./Components/UserProfile/UserProfile";
 import { useState } from "react";
 import Cookies from "js-cookie";
 
 function App() {
-	function initializeLoggedIn() {}
+	function initializeLoggedIn() {
+		if (Cookies.get("info")) {
+			return JSON.parse(Cookies.get("info")).loggedIn;
+		}
+	}
+	function initializeLoggedUser() {
+		if (Cookies.get("info")) {
+			return JSON.parse(Cookies.get("info")).loggedUsername;
+		}
+	}
 	const [loggedIn, setLoggedIn] = useState(initializeLoggedIn());
-	const [loggedUser, setLoggedUser] = useState();
-
-	// const [loggedIn, setLoggedIn] = useState(false);
-	// // eslint-disable-next-line no-unused-vars
-	// const [loggedUser, setLoggedUser] = useState();
+	const [loggedUser] = useState(initializeLoggedUser());
 	return (
 		<div className="App">
 			<Router>
@@ -39,6 +45,11 @@ function App() {
 						</>
 					)}
 					<Route exact path="/users" element={<Users />} />
+					<Route
+						exact
+						path="/profile/:username"
+						element={<UserProfile />}
+					/>
 				</Routes>
 			</Router>
 		</div>
