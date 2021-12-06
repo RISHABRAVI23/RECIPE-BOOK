@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ShowNavUser from "./ShowNaveUser/ShowNavUser";
+import ShowNavUser from "./ShowNavUser/ShowNavUser";
 
 export default function Navbar(props) {
 	return (
