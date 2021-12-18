@@ -1,7 +1,7 @@
-from email.policy import default
 import os
 from django.db import models
 from django.conf import settings
+from recipes.models import Recipe
 
 # Create your models here.
 

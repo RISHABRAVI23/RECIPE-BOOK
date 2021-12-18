@@ -41,9 +41,7 @@ class UsersDetail(APIView):
 		return Response(serializer.data, status=status.HTTP_200_OK)
 		
 	def delete(self, request, username):
-		print("func called")
 		user = self.get_object(username)
 		print(user)
 		user.delete()
-		print("deleted")
 		return Response(status=status.HTTP_202_ACCEPTED)

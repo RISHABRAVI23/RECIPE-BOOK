@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders', 
-    'users', 
+    'users',
+    'recipes', 
     'rest_framework',
+    'psycopg2',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +82,11 @@ WSGI_APPLICATION = 'recipe_book_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'recipe-book',
+        'USER': 'postgres', 
+        'PASSWORD': 'Rishabravi@1231', 
+        'HOST': 'localhost'
     }
 }
 
