@@ -1,12 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import Recipe from "./Recipe/Recipe";
 
 export default function Home() {
 	const params = window.location.search;
-	const navigate = useNavigate();
-	const handleOnclick = (e) => {
-		navigate("/");
-	};
 	document.querySelector("title").innerHTML = "Recipe Book";
 
 	return (
@@ -17,12 +14,12 @@ export default function Home() {
 					role="alert">
 					<strong>Sign Up Successful!!!</strong> You can now sign in
 					anytime and store your recipes here. Enjoy!!!
-					<button
+					<Link
+						to="/"
 						type="button"
 						className="btn-close"
 						data-bs-dismiss="alert"
-						aria-label="Close"
-						onClick={handleOnclick}></button>
+						aria-label="Close"></Link>
 				</div>
 			) : (
 				""
@@ -33,17 +30,17 @@ export default function Home() {
 					role="alert">
 					<strong>Sign In Successful!!!</strong> You can now create
 					and store your recipes here anytime. Enjoy!!!
-					<button
+					<Link
+						to="/"
 						type="button"
 						className="btn-close"
 						data-bs-dismiss="alert"
-						aria-label="Close"
-						onClick={handleOnclick}></button>
+						aria-label="Close"></Link>
 				</div>
 			) : (
 				""
 			)}
-			Recipes will come here
+			<Recipe />
 		</div>
 	);
 }
