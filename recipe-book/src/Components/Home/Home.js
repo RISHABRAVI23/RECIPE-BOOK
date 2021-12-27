@@ -1,24 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Recipe from "./Recipe/Recipe";
 
-export default function Home() {
+export default function Home(props) {
 	const params = window.location.search;
 	document.querySelector("title").innerHTML = "Recipe Book";
 	const [recipes, setRecipes] = useState([]);
 	const [error, setError] = useState(false);
-	const navigate = useNavigate();
-	function handleOnClick(e) {
-		setTimeout(() => {
-			navigate("/");
-		}, 1000);
-	}
 	useEffect(() => {
 		axios
 			.get("http://localhost:8000/recipes/get-all-post/")
 			.then((res) => {
-				console.log(res.data[0]);
 				setRecipes(res.data);
 			})
 			.catch((err) => {
@@ -52,8 +45,7 @@ export default function Home() {
 						type="button"
 						className="btn-close"
 						data-bs-dismiss="alert"
-						aria-label="Close"
-						onClick={handleOnClick}></button>
+						aria-label="Close"></button>
 				</div>
 			) : (
 				""
@@ -68,25 +60,58 @@ export default function Home() {
 						type="button"
 						className="btn-close"
 						data-bs-dismiss="alert"
-						aria-label="Close"
-						onClick={handleOnClick}></button>
+						aria-label="Close"></button>
 				</div>
 			) : (
 				""
 			)}
-			<div className="my-5 text-center">
-				<h1>Your Recipes</h1>
-			</div>
-			{recipes.map((recipe) => {
-				return (
-					<Recipe
-						created_by={recipe.created_by}
-						title={recipe.title}
-						desc={recipe.desc}
-						recipe_image={recipe.recipe_image}
-					/>
-				);
-			})}
+			{props.loggedIn && (
+				<div className="my-5 text-center">
+					<h1>
+						<u>
+							<b>Your Recipes</b>
+						</u>
+					</h1>
+					<Link to="/cook-recipe" class="btn btn-success">
+						<i class="bi bi-plus-circle"></i> Cook a New Recipe
+					</Link>
+				</div>
+			)}
+			{props.loggedIn &&
+				recipes.map((recipe) => {
+					return (
+						<Recipe
+							created_by={recipe.created_by}
+							title={recipe.title}
+							desc={recipe.desc}
+							recipe_image={recipe.recipe_image}
+						/>
+					);
+				})}
+			{!props.loggedIn && (
+				<div
+					className="container d-flex flex-column justify-content-center align-items-center"
+					style={{ height: "78vh" }}>
+					<h1>
+						Please <span style={{ color: "green" }}>Sign In</span>{" "}
+						or <span style={{ color: "green" }}>Sign Up</span> to
+						continue
+					</h1>
+					<div className="container d-flex justify-content-center align-items-center">
+						<Link
+							className="btn btn-outline-success me-2"
+							to="/sign-up">
+							Sign Up
+						</Link>
+						<Link
+							className="btn btn-sm btn-outline-secondary"
+							type="button"
+							to="/sign-in">
+							Sign In
+						</Link>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

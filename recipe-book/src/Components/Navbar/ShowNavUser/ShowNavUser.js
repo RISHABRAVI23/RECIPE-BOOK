@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function ShowNavUser(props) {
-	const [username, setUsername] = useState(props.loggedUser);
+	const [username, setUsername] = useState();
 	const [userImage, setUserImage] = useState();
-	axios
-		.get(`http://localhost:8000/users/${props.loggedUser}`)
-		.then((response) => {
-			setUsername(response.data.username);
-			setUserImage(response.data.profile_pic);
-		});
+	useEffect(() => {
+		axios
+			.get(`http://localhost:8000/users/${props.loggedUser}`)
+			.then((response) => {
+				setUsername(response.data.username);
+				setUserImage(response.data.profile_pic);
+			});
+	}, []);
+	const navigate = useNavigate();
+	function logout(e) {
+		Cookies.remove("info");
+		props.setLoggedIn(false);
+		navigate("/");
+	}
 	return (
 		<div className="d-flex flex-row">
 			<img
@@ -21,6 +30,7 @@ export default function ShowNavUser(props) {
 					borderRadius: "50%",
 					width: "50px",
 					height: "50px",
+					pointerEvents: "none",
 				}}
 			/>
 			<ul className="navbar-nav my-auto">
@@ -46,6 +56,11 @@ export default function ShowNavUser(props) {
 								to={`/profile/${username}`}>
 								Profile
 							</Link>
+						</li>
+						<li>
+							<button className="dropdown-item" onClick={logout}>
+								Logout
+							</button>
 						</li>
 					</ul>
 				</li>

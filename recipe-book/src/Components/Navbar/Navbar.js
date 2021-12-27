@@ -45,7 +45,7 @@ export default function Navbar(props) {
 						className="collapse navbar-collapse"
 						id="navbarSupportedContent">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-							<li className="nav-item">
+							<li className="nav-item d-flex align-items-center">
 								<Link
 									className="nav-link active"
 									aria-current="page"
@@ -53,12 +53,14 @@ export default function Navbar(props) {
 									Home
 								</Link>
 							</li>
-							<li className="nav-item">
+							<li
+								className="nav-item d-flex align-items-center"
+								style={{ width: "100px" }}>
 								<Link className="nav-link" to="/users">
-									Users
+									Other Users
 								</Link>
 							</li>
-							<li className="nav-item dropdown">
+							<li className="nav-item dropdown d-flex align-items-center">
 								<Link
 									className="nav-link dropdown-toggle"
 									to="/"
@@ -82,9 +84,13 @@ export default function Navbar(props) {
 							</li>
 						</ul>
 						{props.loggedIn ? (
-							<ShowNavUser loggedUser={props.loggedUser} />
+							<ShowNavUser
+								loggedUser={props.loggedUser}
+								setLoggedIn={props.setLoggedIn}
+								setLoggedUser={props.setLoggedUser}
+							/>
 						) : (
-							<form className="container-fluid d-flex justify-content-end">
+							<div className="container-fluid d-flex justify-content-end align-items-center">
 								<Link
 									className="btn btn-outline-success me-2"
 									to="/sign-up">
@@ -96,7 +102,7 @@ export default function Navbar(props) {
 									to="/sign-in">
 									Sign In
 								</Link>
-							</form>
+							</div>
 						)}
 					</div>
 				</div>

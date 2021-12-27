@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React from "react";
 
 export default function Recipe({ created_by, title, desc, recipe_image }) {
@@ -13,14 +14,18 @@ export default function Recipe({ created_by, title, desc, recipe_image }) {
 				<h4 class="card-title">{title}</h4>
 				<p class="card-text">{desc}</p>
 				<hr />
-				<h6>Cook : {created_by}</h6>
+				Cook : {created_by} (
+				{created_by === JSON.parse(Cookies.get("info")).loggedUsername
+					? "You"
+					: ""}
+				)
 				<hr />
 				<div className="d-flex justify-content-around">
 					<a href="/" class="btn btn-primary">
-						View
+						<i class="bi bi-binoculars"></i> View
 					</a>
 					<a href="/" class="btn btn-danger">
-						Delete
+						<i class="bi bi-trash"></i> Delete
 					</a>
 				</div>
 			</div>
