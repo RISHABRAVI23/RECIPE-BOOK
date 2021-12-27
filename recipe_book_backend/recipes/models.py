@@ -10,7 +10,7 @@ class Recipe(models.Model):
 	title = models.CharField(max_length=50, default="", blank=True)
 	desc = models.CharField(max_length=200, default="", blank=True)
 	recipe_image = models.ImageField(max_length=1000, upload_to="recipes/images", default=os.path.join(settings.MEDIA_ROOT, "recipes", "images", "default.png"))
-	mats_req = ArrayField(models.CharField(max_length=50, blank=True), blank=True, default=list)
+	ingredients_req = ArrayField(models.CharField(max_length=50, blank=True), blank=True, default=list)
 	procedure = ArrayField(models.CharField(max_length=200, default="", blank=True), blank=True, default=list)
 	precautions = models.CharField(max_length=200, default="", blank=True)
 

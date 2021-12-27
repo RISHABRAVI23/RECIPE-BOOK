@@ -24,8 +24,7 @@ export default function Home(props) {
 				<div
 					className="alert alert-danger alert-dismissible fade show"
 					role="alert">
-					<strong>There has been an error!!</strong> Sorry for the
-					inconvenience. :(
+					Please<strong> Sign Up/Sign </strong>In to proceed.
 					<button
 						type="button"
 						className="btn-close"

@@ -1,2 +1,4 @@
 {
+	"code-runner.customCommand": "python manage.py runserver",
+	"code-runner.cwd": "D:\\My works\\Code Playground\\PROJECTS\\Recipe Book\\recipe_book_backend\\recipes\\models.py"
 }
