@@ -8,6 +8,7 @@ import UserProfile from "./Components/UserProfile/UserProfile";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import CookRecipe from "./Components/CookRecipe/CookRecipe";
+import HomeLoggedOut from "./Components/Home/HomeLoggedOut";
 
 function App() {
 	function initializeLoggedIn() {
@@ -32,11 +33,6 @@ function App() {
 					setLoggedUser={setLoggedUser}
 				/>
 				<Routes>
-					<Route
-						exact
-						path="/"
-						element={<Home loggedIn={loggedIn} />}
-					/>
 					{loggedIn ? (
 						<>
 							<Route
@@ -44,9 +40,11 @@ function App() {
 								path="/cook-recipe"
 								element={<CookRecipe />}
 							/>
+							<Route exact path="/" element={<Home />} />
 						</>
 					) : (
 						<>
+							<Route exact path="/" element={<HomeLoggedOut />} />
 							<Route
 								exact
 								path="/sign-up"

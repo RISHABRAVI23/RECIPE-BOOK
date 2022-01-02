@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React from "react";
 
 export default function CookRecipe(props) {
 	function displayImage(e) {
@@ -36,6 +37,7 @@ export default function CookRecipe(props) {
 	}
 	function addIngredientsRequired(e) {
 		let ing_list = document.querySelector(".ingredients_req");
+		let id = ing_list.children.length + 1;
 
 		let outerdiv = document.createElement("div");
 		outerdiv.classList.add(
@@ -67,6 +69,7 @@ export default function CookRecipe(props) {
 		label.classList.add("input-group-text");
 		label.innerHTML = "Ingredient";
 		label.id = "basic-addon1";
+		label.htmlFor = `ing-${id}`;
 
 		let input = document.createElement("input");
 		input.classList.add("form-control");
@@ -74,6 +77,7 @@ export default function CookRecipe(props) {
 		input.placeholder = "Ingredient";
 		input.ariaLabel = "Ingredient";
 		input.ariaDescribedBy = "basic-addon1";
+		input.id = `ing-${id}`;
 
 		div.appendChild(label);
 		div.appendChild(input);
@@ -84,6 +88,7 @@ export default function CookRecipe(props) {
 	}
 	function addStepInProcedure(e) {
 		let pro_list = document.querySelector(".procedure");
+		let id = pro_list.children.length + 1;
 
 		let outerdiv = document.createElement("div");
 		outerdiv.classList.add(
@@ -91,17 +96,13 @@ export default function CookRecipe(props) {
 			"alert-dismissible",
 			"fade",
 			"show",
-			"my-1",
-			"py-1",
-			"d-flex",
-			"align-items-center",
-			"justify-content-between"
+			"my-1"
 		);
 		outerdiv.setAttribute("role", "alert");
 
 		let button = document.createElement("button");
 		button.type = "button";
-		button.className = "btn-close";
+		button.className = "btn-close my-1";
 		button.setAttribute("data-bs-dismiss", "alert");
 		button.ariaLabel = "Close";
 
@@ -115,6 +116,7 @@ export default function CookRecipe(props) {
 		label.classList.add("input-group-text");
 		label.innerHTML = "Step";
 		label.id = "basic-addon1";
+		label.htmlFor = `pro-${id}`;
 
 		let input = document.createElement("input");
 		input.classList.add("form-control");
@@ -122,6 +124,7 @@ export default function CookRecipe(props) {
 		input.placeholder = "Step";
 		input.ariaLabel = "Step";
 		input.ariaDescribedBy = "basic-addon1";
+		input.id = `pro-${id}`;
 
 		div.appendChild(label);
 		div.appendChild(input);
@@ -130,7 +133,11 @@ export default function CookRecipe(props) {
 		outerdiv.appendChild(button);
 		pro_list.appendChild(outerdiv);
 	}
-
+	function checkIngredients() {
+		if (document.querySelector("ingredients_req").children.length < 1) {
+			// document.querySelector("ingredients_req").innerHTML
+		}
+	}
 	return (
 		<div className="container my-5">
 			<div className="mb-3 d-flex justify-content-center">
@@ -150,7 +157,7 @@ export default function CookRecipe(props) {
 						borderWidth: "5px",
 					}}>
 					<img
-						src="..."
+						src=""
 						alt="No Image Selected"
 						className="recipe-image"
 					/>
@@ -200,7 +207,9 @@ export default function CookRecipe(props) {
 							role="alert">
 							<li className="mx-2">
 								<div className="input-group mb-3">
-									<label className="input-group-text">
+									<label
+										className="input-group-text"
+										htmlFor="ing-1">
 										Ingredient
 									</label>
 									<input
@@ -209,6 +218,7 @@ export default function CookRecipe(props) {
 										placeholder="Ingredient"
 										aria-label="Ingredient"
 										aria-describedby="basic-addon1"
+										id="ing-1"
 									/>
 								</div>
 							</li>
@@ -216,7 +226,8 @@ export default function CookRecipe(props) {
 								type="button"
 								className="btn-close"
 								data-bs-dismiss="alert"
-								aria-label="Close"></button>
+								aria-label="Close"
+								onClick={checkIngredients}></button>
 						</div>
 					</ol>
 				</div>
@@ -232,11 +243,13 @@ export default function CookRecipe(props) {
 					<h4 className="my-4">Procedure</h4>
 					<ol className="procedure">
 						<div
-							className="alert alert-dismissible fade show my-1 py-1 d-flex align-items-center justify-content-between"
+							className="alert alert-dismissible fade show my-1"
 							role="alert">
 							<li className="mx-2">
 								<div className="input-group mb-3">
-									<label className="input-group-text">
+									<label
+										className="input-group-text"
+										htmlFor="pro-1">
 										Step
 									</label>
 									<input
@@ -245,14 +258,16 @@ export default function CookRecipe(props) {
 										placeholder="Step"
 										aria-label="Step"
 										aria-describedby="basic-addon1"
+										id="pro-1"
 									/>
 								</div>
 							</li>
 							<button
 								type="button"
-								className="btn-close"
+								className="btn-close my-1"
 								data-bs-dismiss="alert"
-								aria-label="Close"></button>
+								aria-label="Close"
+								width="100%"></button>
 						</div>
 					</ol>
 				</div>
