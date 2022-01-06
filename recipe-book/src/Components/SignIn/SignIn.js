@@ -21,6 +21,7 @@ export default function SignIn(props) {
 		axios
 			.get(`http://localhost:8000/users/${username}`)
 			.then((response) => {
+				// console.log(response);
 				let user = response.data;
 				if (user.password === password) {
 					props.setLoggedIn(true);
