@@ -9,6 +9,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import CookRecipe from "./Components/CookRecipe/CookRecipe";
 import HomeLoggedOut from "./Components/Home/HomeLoggedOut";
+import NotFound404 from "./Components/NotFound404/NotFound404";
 
 function App() {
 	function initializeLoggedIn() {
@@ -41,6 +42,7 @@ function App() {
 								element={<CookRecipe />}
 							/>
 							<Route exact path="/" element={<Home />} />
+							<Route path="*" element={<NotFound404 />} />
 						</>
 					) : (
 						<>
@@ -55,6 +57,7 @@ function App() {
 								path="/sign-in"
 								element={<SignIn setLoggedIn={setLoggedIn} />}
 							/>
+							<Route path="*" element={<NotFound404 />} />
 						</>
 					)}
 					<Route exact path="/users" element={<Users />} />
@@ -63,6 +66,7 @@ function App() {
 						path="/profile/:username"
 						element={<UserProfile />}
 					/>
+					<Route path="*" element={<NotFound404 />} />
 				</Routes>
 			</Router>
 		</div>

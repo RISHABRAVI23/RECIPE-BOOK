@@ -6,14 +6,13 @@ import Cookies from "js-cookie";
 export default function ShowNavUser(props) {
 	const [username, setUsername] = useState();
 	const [userImage, setUserImage] = useState();
+	const url = `http://localhost:8000/users/${props.loggedUser}`;
 	useEffect(() => {
-		axios
-			.get(`http://localhost:8000/users/${props.loggedUser}`)
-			.then((response) => {
-				setUsername(response.data.username);
-				setUserImage(response.data.profile_pic);
-			});
-	}, [props.loggedUser]);
+		axios.get(url).then((response) => {
+			setUsername(response.data.username);
+			setUserImage(response.data.profile_pic);
+		});
+	});
 	const navigate = useNavigate();
 	function logout(e) {
 		Cookies.remove("info");

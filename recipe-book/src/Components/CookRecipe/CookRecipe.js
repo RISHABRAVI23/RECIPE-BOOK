@@ -7,11 +7,9 @@ export default function CookRecipe(props) {
 		let label = document.querySelector("label.image-n-label");
 		let heading = document.querySelector("h6.text-center.image-caption");
 		let image = e.target.files[0];
-		console.log(image);
 		let reader = new FileReader();
 		reader.readAsDataURL(image);
 		reader.onload = () => {
-			console.log(reader.result);
 			img.setAttribute("src", reader.result);
 
 			img.style.width = label.style.width;
