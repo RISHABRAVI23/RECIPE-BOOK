@@ -1,15 +1,20 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import React, { useState } from "react";
 
 export default function CookRecipe(props) {
+	const [inputEmpty, setInputEmpty] = useState(false);
+	const [image, setImage] = useState(false);
 	function displayImage(e) {
-		let img = document.querySelector(".recipe-image");
 		let label = document.querySelector("label.image-n-label");
 		let heading = document.querySelector("h6.text-center.image-caption");
 		let image = e.target.files[0];
 		let reader = new FileReader();
 		reader.readAsDataURL(image);
 		reader.onload = () => {
+			setImage(true);
+			let img = document.querySelector("#recipe-image");
 			img.setAttribute("src", reader.result);
 
 			img.style.width = label.style.width;
@@ -70,7 +75,7 @@ export default function CookRecipe(props) {
 		label.htmlFor = `ing-${id}`;
 
 		let input = document.createElement("input");
-		input.classList.add("form-control");
+		input.classList.add("form-control", "ingredient");
 		input.type = "text";
 		input.placeholder = "Ingredient";
 		input.ariaLabel = "Ingredient";
@@ -85,7 +90,7 @@ export default function CookRecipe(props) {
 		ing_list.appendChild(outerdiv);
 	}
 	function addStepInProcedure(e) {
-		let pro_list = document.querySelector(".procedure");
+		let pro_list = document.querySelector(".procedures");
 		let id = pro_list.children.length + 1;
 
 		let outerdiv = document.createElement("div");
@@ -117,7 +122,7 @@ export default function CookRecipe(props) {
 		label.htmlFor = `pro-${id}`;
 
 		let input = document.createElement("input");
-		input.classList.add("form-control");
+		input.classList.add("form-control", "procedure");
 		input.type = "text";
 		input.placeholder = "Step";
 		input.ariaLabel = "Step";
@@ -131,16 +136,88 @@ export default function CookRecipe(props) {
 		outerdiv.appendChild(button);
 		pro_list.appendChild(outerdiv);
 	}
-	function checkIngredients() {
-		if (document.querySelector("ingredients_req").children.length < 1) {
-			// document.querySelector("ingredients_req").innerHTML
+	function checkInputs(e) {
+		let inputs = document.querySelectorAll("input");
+		for (let i = 0; i < Array.from(inputs).length; i++) {
+			const element = Array.from(inputs)[i];
+			if (element.value === "") {
+				window.scrollTo({
+					top: document.querySelector(".alert").style.top - 150,
+					left: 0,
+					behavior: "smooth",
+				});
+				setInputEmpty(true);
+				return false;
+			} else {
+				setInputEmpty(false);
+				return true;
+			}
+		}
+	}
+	function submitForm(commence) {
+		if (commence) {
+			let data = new FormData();
+			let created_by = JSON.parse(Cookies.get("info")).loggedUsername;
+			let title = document.querySelector("#title").value;
+			let desc = document.querySelector("#desc").value;
+			let recipe_image =
+				document.querySelector("#recipe-image-inp").files[0];
+			let ingredients_req_inp = Array.from(
+				document.querySelectorAll(".ingredient")
+			);
+			let procedure_inp = Array.from(
+				document.querySelectorAll(".procedure")
+			);
+			let precautions = document.querySelector("#precautions").value;
+
+			let ingredients_req = [];
+			let procedure = [];
+
+			ingredients_req_inp.forEach((inp) => {
+				ingredients_req.push(inp.value);
+			});
+			procedure_inp.forEach((inp) => {
+				procedure.push(inp.value);
+			});
+
+			data.append("created_by", created_by);
+			data.append("title", title);
+			data.append("desc", desc);
+			data.append("recipe_image", recipe_image);
+			data.append("ingredients_req", ingredients_req);
+			data.append("procedure", procedure);
+			data.append("precautions", precautions);
+			axios
+				.post("http://localhost:8000/recipes/get-all-post/", data, {
+					headers: { "content-type": "multipart/form-data" },
+				})
+				.then((res) => {
+					console.log(res); // check why the arrays are being stored as ["dfoiajwe, fweofnq, ofqiwer"]
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	}
 	return (
 		<div className="container my-5">
+			{inputEmpty && (
+				<div
+					className="alert alert-danger alert-dismissible fade show"
+					role="alert">
+					<strong>Inputs are Empty</strong> You should check some of
+					those fields below as it looks like they are empty or a file
+					which is not image is uploaded.
+					<button
+						type="button"
+						className="btn-close"
+						data-bs-dismiss="alert"
+						aria-label="Close"></button>
+				</div>
+			)}
 			<div className="mb-3 d-flex justify-content-center">
 				<label
-					for="formFile"
+					htmlFor="recipe-image-inp"
 					className="form-label image-n-label"
 					style={{
 						display: "flex",
@@ -154,16 +231,19 @@ export default function CookRecipe(props) {
 						borderColor: "grey",
 						borderWidth: "5px",
 					}}>
-					<img
-						src=""
-						alt="No Image Selected"
-						className="recipe-image"
-					/>
+					{image ? (
+						<img
+							alt="Selected File is not Image"
+							id="recipe-image"
+						/>
+					) : (
+						<p>No Image Selected</p>
+					)}
 				</label>
 				<input
 					className="form-control"
 					type="file"
-					id="formFile"
+					id="recipe-image-inp"
 					style={{ display: "none" }}
 					onChange={displayImage}
 				/>
@@ -175,7 +255,7 @@ export default function CookRecipe(props) {
 				<label
 					className="input-group-text"
 					id="basic-addon1"
-					for="title">
+					htmlFor="title">
 					Title
 				</label>
 				<input
@@ -188,7 +268,7 @@ export default function CookRecipe(props) {
 				/>
 			</div>
 			<div className="input-group mb-3">
-				<label className="input-group-text" for="desc">
+				<label className="input-group-text" htmlFor="desc">
 					Description
 				</label>
 				<textarea
@@ -212,7 +292,7 @@ export default function CookRecipe(props) {
 									</label>
 									<input
 										type="text"
-										className="form-control"
+										className="form-control ingredient"
 										placeholder="Ingredient"
 										aria-label="Ingredient"
 										aria-describedby="basic-addon1"
@@ -224,14 +304,13 @@ export default function CookRecipe(props) {
 								type="button"
 								className="btn-close"
 								data-bs-dismiss="alert"
-								aria-label="Close"
-								onClick={checkIngredients}></button>
+								aria-label="Close"></button>
 						</div>
 					</ol>
 				</div>
 				<button
 					type="button"
-					class="btn btn-primary my-2"
+					className="btn btn-primary my-2"
 					onClick={addIngredientsRequired}>
 					Add Another Ingredient
 				</button>
@@ -239,7 +318,7 @@ export default function CookRecipe(props) {
 			<div className="container border border-2 rounded text-center mb-3">
 				<div className="container">
 					<h4 className="my-4">Procedure</h4>
-					<ol className="procedure">
+					<ol className="procedures">
 						<div
 							className="alert alert-dismissible fade show my-1"
 							role="alert">
@@ -252,7 +331,7 @@ export default function CookRecipe(props) {
 									</label>
 									<input
 										type="text"
-										className="form-control"
+										className="form-control procedure"
 										placeholder="Step"
 										aria-label="Step"
 										aria-describedby="basic-addon1"
@@ -271,9 +350,35 @@ export default function CookRecipe(props) {
 				</div>
 				<button
 					type="button"
-					class="btn btn-primary my-2"
+					className="btn btn-primary my-2"
 					onClick={addStepInProcedure}>
 					Add Another Step
+				</button>
+			</div>
+			<div className="input-group mb-3">
+				<label
+					className="input-group-text"
+					id="basic-addon1"
+					htmlFor="precaution">
+					Precautions
+				</label>
+				<input
+					type="text"
+					id="precautions"
+					className="form-control"
+					placeholder="Precautions"
+					aria-label="Precautions"
+					aria-describedby="basic-addon1"
+				/>
+			</div>
+			<div className="container text-center">
+				<button
+					className="btn btn-success mx-auto"
+					id="submit"
+					onClick={() => {
+						submitForm(checkInputs());
+					}}>
+					Submit
 				</button>
 			</div>
 		</div>

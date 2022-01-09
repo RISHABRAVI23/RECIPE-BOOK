@@ -75,17 +75,18 @@ export default function Home(props) {
 					<i class="bi bi-plus-circle"></i> Cook a New Recipe
 				</Link>
 			</div>
-
-			{recipes.map((recipe) => {
-				return (
-					<Recipe
-						created_by={recipe.created_by}
-						title={recipe.title}
-						desc={recipe.desc}
-						recipe_image={recipe.recipe_image}
-					/>
-				);
-			})}
+			<div className="container d-flex justify-content-around">
+				{recipes.map((recipe) => {
+					return (
+						<Recipe
+							created_by={recipe.created_by}
+							title={recipe.title}
+							desc={recipe.desc}
+							recipe_image={recipe.recipe_image}
+						/>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

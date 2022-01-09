@@ -5,7 +5,7 @@ export default function HomeLoggedOut() {
 	return (
 		<div className="container">
 			<div
-				className="alert alert-danger alert-dismissible fade show"
+				className="alert alert-danger alert-dismissible fade show my-4"
 				role="alert">
 				Please<strong> Sign Up/Sign </strong>In to proceed.
 				<button
