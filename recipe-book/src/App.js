@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import CookRecipe from "./Components/CookRecipe/CookRecipe";
 import HomeLoggedOut from "./Components/Home/HomeLoggedOut";
 import NotFound404 from "./Components/NotFound404/NotFound404";
+import OthersRecipes from "./Components/OthersRecipes/OthersRecipes";
 
 function App() {
 	function initializeLoggedIn() {
@@ -41,7 +42,11 @@ function App() {
 								path="/cook-recipe"
 								element={<CookRecipe />}
 							/>
-							<Route exact path="/" element={<Home />} />
+							<Route
+								exact
+								path="/"
+								element={<Home loggedUser={loggedUser} />}
+							/>
 							<Route path="*" element={<NotFound404 />} />
 						</>
 					) : (
@@ -61,6 +66,12 @@ function App() {
 						</>
 					)}
 					<Route exact path="/users" element={<Users />} />
+					<Route
+						exact
+						path="/others-recipes"
+						element={<OthersRecipes />}
+					/>
+					{/* Create Other Recipes link */}
 					<Route
 						exact
 						path="/profile/:username"

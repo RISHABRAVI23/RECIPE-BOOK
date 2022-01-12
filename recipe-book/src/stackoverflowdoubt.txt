@@ -1,0 +1,82 @@
+I am creating a Recipe Storing app using ReactJS and Django Rest Framework.
+Find the whole code in 
+
+In a component called CookRecipe.js I'm allowing the user to create a recipe. The recipe model in Django is as follows:
+
+    class Recipe(models.Model):
+	    created_by = models.CharField(max_length=20, default="", blank=True)
+	    title = models.CharField(max_length=50, default="", blank=True)
+	    desc = models.CharField(max_length=200, default="", blank=True)
+	    recipe_image = models.ImageField(max_length=1000, upload_to="recipes/images", default=os.path.join(settings.MEDIA_ROOT, "recipes", "images", "default.png"))
+	    ingredients_req = ArrayField(models.CharField(max_length=50, blank=True), blank=True, default=list)
+	    procedure = ArrayField(models.CharField(max_length=200, default="", blank=True), blank=True, default=list)
+	    precautions = models.CharField(max_length=200, default="", blank=True)
+
+	def __str__(self):
+		return self.title
+
+The way I'm getting an array of the procedure and ingredients_req is by getting inputs from the user in different inputs like so:
+[How I'm taking procedure and ingredients_req inputs as arrays][1]
+
+and then adding each of those inputs into an array.
+
+Here is how I'm doing that inside the submitForm() function:
+
+    function submitForm(commence) {
+		if (commence) {
+			let data = new FormData();
+			let created_by = JSON.parse(Cookies.get("info")).loggedUsername;
+			let title = document.querySelector("#title").value;
+			let desc = document.querySelector("#desc").value;
+			let recipe_image =
+				document.querySelector("#recipe-image-inp").files[0];
+			let ingredients_req_inp = Array.from(
+				document.querySelectorAll(".ingredient")
+			);
+			let procedure_inp = Array.from(
+				document.querySelectorAll(".procedure")
+			);
+			let precautions = document.querySelector("#precautions").value;
+
+			let ingredients_req = [];
+			let procedure = [];
+
+			ingredients_req_inp.forEach((inp) => {
+				ingredients_req.push(inp.value);
+			});
+			procedure_inp.forEach((inp) => {
+				procedure.push(inp.value);
+			});
+			console.log(procedure, ingredients_req);
+			data.append("created_by", created_by);
+			data.append("title", title);
+			data.append("desc", desc);
+			data.append("recipe_image", recipe_image);
+			data.append("ingredients_req", ingredients_req);
+			data.append("procedure", procedure);
+			data.append("precautions", precautions);
+			axios
+				.post("http://localhost:8000/recipes/get-all-post/", data, {
+					headers: { "content-type": "multipart/form-data" },
+				})
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	}
+
+Now the problem I'm having while posting is that the array is being stored as:
+
+    ["step-1, step-2"]
+
+whereas, I want it to be:
+
+    ["step-1", "step-2"]
+
+In the console.log(procedure, ingredients_req); inside submitForm() function I am getting the following:
+
+
+  [1]: https://i.stack.imgur.com/QZuSl.png

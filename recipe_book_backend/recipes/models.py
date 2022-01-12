@@ -2,6 +2,7 @@ import os
 from django.conf import settings
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class Recipe(models.Model):
 	ingredients_req = ArrayField(models.CharField(max_length=50, blank=True), blank=True, default=list)
 	procedure = ArrayField(models.CharField(max_length=200, default="", blank=True), blank=True, default=list)
 	precautions = models.CharField(max_length=200, default="", blank=True)
+	date_created = models.DateField(default=now(), blank=False)
 
 	def __str__(self):
 		return self.title

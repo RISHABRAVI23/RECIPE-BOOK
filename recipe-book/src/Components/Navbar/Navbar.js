@@ -60,6 +60,13 @@ export default function Navbar(props) {
 									Other Users
 								</Link>
 							</li>
+							<li
+								className="nav-item d-flex align-items-center"
+								style={{ width: "fit-content" }}>
+								<Link className="nav-link" to="/others-recipes">
+									Other's Recipes
+								</Link>
+							</li>
 							<li className="nav-item dropdown d-flex align-items-center">
 								<Link
 									className="nav-link dropdown-toggle"
@@ -74,11 +81,9 @@ export default function Navbar(props) {
 									className="dropdown-menu"
 									aria-labelledby="navbarDropdown">
 									<li>
-										<a
-											className="dropdown-item"
-											href="http://lib-sys.rishabravi.com">
-											Lib-Sys
-										</a>
+										<p className="dropdown-item">
+											There will soon be an item here ;)
+										</p>
 									</li>
 								</ul>
 							</li>

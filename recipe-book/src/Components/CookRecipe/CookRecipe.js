@@ -2,10 +2,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CookRecipe(props) {
+	const navigate = useNavigate();
 	const [inputEmpty, setInputEmpty] = useState(false);
 	const [image, setImage] = useState(false);
+	const [error, setError] = useState(false);
 	function displayImage(e) {
 		let label = document.querySelector("label.image-n-label");
 		let heading = document.querySelector("h6.text-center.image-caption");
@@ -179,28 +182,50 @@ export default function CookRecipe(props) {
 			procedure_inp.forEach((inp) => {
 				procedure.push(inp.value);
 			});
-
+			console.log(procedure, ingredients_req);
 			data.append("created_by", created_by);
 			data.append("title", title);
 			data.append("desc", desc);
 			data.append("recipe_image", recipe_image);
-			data.append("ingredients_req", ingredients_req);
-			data.append("procedure", procedure);
+			// data.append("ingredients_req", ingredients_req); //This is wrong
+			// data.append("procedure", procedure);
+			ingredients_req.forEach((ing) => {
+				data.append("ingredients_req", ing);
+			}); //This is correct.
+			procedure.forEach((step) => {
+				data.append("procedure", step);
+			});
 			data.append("precautions", precautions);
 			axios
 				.post("http://localhost:8000/recipes/get-all-post/", data, {
 					headers: { "content-type": "multipart/form-data" },
 				})
 				.then((res) => {
-					console.log(res); // check why the arrays are being stored as ["dfoiajwe, fweofnq, ofqiwer"]
+					// console.log(res); // check why the arrays are being stored as ["dfoiajwe, fweofnq, ofqiwer"]
+					navigate("/");
 				})
 				.catch((err) => {
-					console.log(err);
+					setError(true);
 				});
 		}
 	}
 	return (
 		<div className="container my-5">
+			{error ? (
+				<div
+					className="alert alert-danger alert-dismissible fade show"
+					role="alert">
+					<strong>There was an Error!!</strong> Sorry for the
+					inconvenience. :(
+					<button
+						type="button"
+						className="btn-close"
+						data-bs-dismiss="alert"
+						aria-label="Close"></button>
+				</div>
+			) : (
+				""
+			)}
 			{inputEmpty && (
 				<div
 					className="alert alert-danger alert-dismissible fade show"
@@ -237,7 +262,7 @@ export default function CookRecipe(props) {
 							id="recipe-image"
 						/>
 					) : (
-						<p>No Image Selected</p>
+						<p className="my-auto">No Image Selected</p>
 					)}
 				</label>
 				<input

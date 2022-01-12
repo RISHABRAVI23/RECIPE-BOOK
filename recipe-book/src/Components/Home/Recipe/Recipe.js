@@ -1,18 +1,25 @@
 import Cookies from "js-cookie";
 import React from "react";
 
-export default function Recipe({ created_by, title, desc, recipe_image }) {
+export default function Recipe({
+	id,
+	created_by,
+	title,
+	desc,
+	recipe_image,
+	handleDelete,
+}) {
 	return (
-		<div class="card my-5" style={{ width: "18rem" }}>
+		<div className="card my-5" style={{ width: "18rem" }}>
 			<img
 				src={`http://localhost:8000${recipe_image}`}
-				class="card-img-top"
+				className="card-img-top mx-auto"
 				alt="..."
-				style={{ height: "200px" }}
+				style={{ height: "200px", width: "200px" }}
 			/>
-			<div class="card-body">
-				<h4 class="card-title">{title}</h4>
-				<p class="card-text">{desc}</p>
+			<div className="card-body">
+				<h4 className="card-title">{title}</h4>
+				<p className="card-text">{desc}</p>
 				<hr />
 				Cook : {created_by} (
 				{created_by === JSON.parse(Cookies.get("info")).loggedUsername
@@ -21,12 +28,14 @@ export default function Recipe({ created_by, title, desc, recipe_image }) {
 				)
 				<hr />
 				<div className="d-flex justify-content-around">
-					<a href="/" class="btn btn-primary">
-						<i class="bi bi-binoculars"></i> View
-					</a>
-					<a href="/" class="btn btn-danger">
-						<i class="bi bi-trash"></i> Delete
-					</a>
+					<button className="btn btn-primary">
+						<i className="bi bi-binoculars"></i> View
+					</button>
+					<button
+						className="btn btn-danger"
+						onClick={() => handleDelete(id, title)}>
+						<i className="bi bi-trash"></i> Delete
+					</button>
 				</div>
 			</div>
 		</div>
