@@ -41,7 +41,7 @@ export default function CookRecipe(props) {
 				"Click on the image above to change the selected image.";
 		};
 	}
-	function addIngredientsRequired(e) {
+	function addIngredientsRequired() {
 		let ing_list = document.querySelector(".ingredients_req");
 		let id = ing_list.children.length + 1;
 
@@ -92,7 +92,7 @@ export default function CookRecipe(props) {
 		outerdiv.appendChild(button);
 		ing_list.appendChild(outerdiv);
 	}
-	function addStepInProcedure(e) {
+	function addStepInProcedure() {
 		let pro_list = document.querySelector(".procedures");
 		let id = pro_list.children.length + 1;
 
@@ -139,7 +139,7 @@ export default function CookRecipe(props) {
 		outerdiv.appendChild(button);
 		pro_list.appendChild(outerdiv);
 	}
-	function checkInputs(e) {
+	function checkInputs() {
 		let inputs = document.querySelectorAll("input");
 		for (let i = 0; i < Array.from(inputs).length; i++) {
 			const element = Array.from(inputs)[i];
@@ -210,7 +210,12 @@ export default function CookRecipe(props) {
 		}
 	}
 	return (
-		<div className="container my-5">
+		<form
+			className="container my-5"
+			onSubmit={(e) => {
+				e.preventDefault();
+				submitForm(checkInputs());
+			}}>
 			{error ? (
 				<div
 					className="alert alert-danger alert-dismissible fade show"
@@ -400,12 +405,10 @@ export default function CookRecipe(props) {
 				<button
 					className="btn btn-success mx-auto"
 					id="submit"
-					onClick={() => {
-						submitForm(checkInputs());
-					}}>
+					type="submit">
 					Submit
 				</button>
 			</div>
-		</div>
+		</form>
 	);
 }

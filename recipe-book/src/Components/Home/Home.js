@@ -16,6 +16,7 @@ export default function Home(props) {
 		axios
 			.get(`http://localhost:8000/recipes/get/${props.loggedUser}`)
 			.then((res) => {
+				console.log(res.data.reverse());
 				setRecipes(res.data.reverse());
 			})
 			.catch((err) => {
@@ -47,6 +48,10 @@ export default function Home(props) {
 			document
 				.querySelector("button.search-button")
 				.setAttribute("disabled", "true");
+		} else if (document.querySelector("input.search").value === "‎") {
+			document
+				.querySelector("button.search-button")
+				.setAttribute("disabled", "true");
 		} else {
 			document
 				.querySelector("button.search-button")
@@ -55,7 +60,30 @@ export default function Home(props) {
 	}
 
 	function searchRecipes() {
-		console.log("running");
+		let result = [];
+		let searchTerm = document.querySelector("input.search").value;
+		recipes.forEach((recipe) => {
+			if (recipe.title.includes(searchTerm)) {
+				result.push(recipe);
+			} else if (recipe.desc.includes(searchTerm)) {
+				result.push(recipe);
+			} else if (recipe.created_by.includes(searchTerm)) {
+				result.push(recipe);
+			} else if (recipe.precautions.includes(searchTerm)) {
+				result.push(recipe);
+			}
+			recipe.ingredients_req.forEach((ing) => {
+				if (ing.includes(searchTerm)) {
+					result.push(recipe);
+				}
+			});
+			recipe.procedure.forEach((step) => {
+				if (step.includes(searchTerm)) {
+					result.push(recipe);
+				}
+			});
+		});
+		console.log(result);
 	}
 	return (
 		<div className="container">
@@ -115,7 +143,12 @@ export default function Home(props) {
 					<i className="bi bi-plus-circle"></i> Cook a New Recipe
 				</Link>
 			</div>
-			<div className="d-flex">
+			<form
+				className="d-flex"
+				onSubmit={(e) => {
+					e.preventDefault();
+					searchRecipes();
+				}}>
 				<input
 					className="form-control me-2 search"
 					type="text"
@@ -125,14 +158,11 @@ export default function Home(props) {
 				/>
 				<button
 					className="btn btn-outline-success search-button"
-					onClick={(e) => {
-						e.preventDefault();
-						searchRecipes();
-					}}
+					type="submit"
 					disabled>
 					Search
 				</button>
-			</div>
+			</form>
 			<div className="container d-flex justify-content-around">
 				{recipes.length > 0 ? (
 					recipes.map((recipe, i) => {
@@ -149,7 +179,7 @@ export default function Home(props) {
 						);
 					})
 				) : (
-					<h4>
+					<h4 className="my-4">
 						There are no Recipes made by you. Check out{" "}
 						<Link to="/others-recipes" className="link-primary">
 							Other's recipes
