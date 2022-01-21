@@ -6,23 +6,28 @@ import Recipe from "./Recipe/Recipe";
 export default function Home(props) {
 	const params = window.location.search;
 	document.querySelector("title").innerHTML = "Recipe Book | Recipes";
-	const [recipes, setRecipes] = useState([]);
+	const [allRecipes, setAllRecipes] = useState([]);
+	const [searchResult, setSearchResult] = useState([]);
 	const [error, setError] = useState(false);
 	// const [prevPage, setPrevPage] = useState();
 	// const [nextPage, setNextPage] = useState();
 	// const [currentPage, setCurrentPage] = useState();
 
-	useEffect(() => {
+	function updateRecipes() {
 		axios
 			.get(`http://localhost:8000/recipes/get/${props.loggedUser}`)
 			.then((res) => {
-				console.log(res.data.reverse());
-				setRecipes(res.data.reverse());
+				setAllRecipes(res.data.reverse());
 			})
 			.catch((err) => {
 				setError(true);
 			});
-	}, [props.loggedUser]);
+	}
+
+	useEffect(() => {
+		updateRecipes();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	function handleDelete(id, title) {
 		let confirmation = window.confirm(
@@ -31,59 +36,52 @@ export default function Home(props) {
 		if (confirmation) {
 			axios
 				.delete(`http://localhost:8000/recipes/${id}`)
-				.then((res) => setRecipes(res.data.reverse()))
+				.then((res) => {
+					updateRecipes();
+				})
 				.catch((err) => {
 					setError(true);
-				})
-				.finally(async () => {
-					axios
-						.get("http://localhost:8000/recipes/get-all-post")
-						.then((res) => setRecipes(res.data.reverse()))
-						.catch((err) => setError(true));
 				});
-		}
-	}
-	function checkInput(e) {
-		if (document.querySelector("input.search").value === "") {
-			document
-				.querySelector("button.search-button")
-				.setAttribute("disabled", "true");
-		} else if (document.querySelector("input.search").value === "‎") {
-			document
-				.querySelector("button.search-button")
-				.setAttribute("disabled", "true");
-		} else {
-			document
-				.querySelector("button.search-button")
-				.removeAttribute("disabled");
 		}
 	}
 
 	function searchRecipes() {
 		let result = [];
 		let searchTerm = document.querySelector("input.search").value;
-		recipes.forEach((recipe) => {
-			if (recipe.title.includes(searchTerm)) {
+		allRecipes.forEach((recipe) => {
+			if (recipe.title.includes(searchTerm) && !result.includes(recipe)) {
 				result.push(recipe);
-			} else if (recipe.desc.includes(searchTerm)) {
+			} else if (
+				recipe.desc.includes(searchTerm) &&
+				!result.includes(recipe)
+			) {
 				result.push(recipe);
-			} else if (recipe.created_by.includes(searchTerm)) {
+			} else if (
+				recipe.created_by.includes(searchTerm) &&
+				!result.includes(recipe)
+			) {
 				result.push(recipe);
-			} else if (recipe.precautions.includes(searchTerm)) {
+			} else if (
+				recipe.precautions.includes(searchTerm) &&
+				!result.includes(recipe)
+			) {
 				result.push(recipe);
 			}
 			recipe.ingredients_req.forEach((ing) => {
-				if (ing.includes(searchTerm)) {
+				if (ing.includes(searchTerm) && !result.includes(recipe)) {
 					result.push(recipe);
 				}
 			});
 			recipe.procedure.forEach((step) => {
-				if (step.includes(searchTerm)) {
+				if (step.includes(searchTerm) && !result.includes(recipe)) {
 					result.push(recipe);
 				}
 			});
 		});
-		console.log(result);
+		setSearchResult(result);
+		if (searchTerm === "") {
+			setSearchResult([]);
+		}
 	}
 	return (
 		<div className="container">
@@ -147,14 +145,15 @@ export default function Home(props) {
 				className="d-flex"
 				onSubmit={(e) => {
 					e.preventDefault();
-					searchRecipes();
 				}}>
 				<input
 					className="form-control me-2 search"
 					type="text"
 					placeholder="Search"
 					aria-label="Search"
-					onChange={checkInput}
+					onChange={(e) => {
+						searchRecipes();
+					}}
 				/>
 				<button
 					className="btn btn-outline-success search-button"
@@ -164,8 +163,35 @@ export default function Home(props) {
 				</button>
 			</form>
 			<div className="container d-flex justify-content-around">
-				{recipes.length > 0 ? (
-					recipes.map((recipe, i) => {
+				{searchResult.length <= 0 ? (
+					allRecipes.length > 0 ? (
+						allRecipes.map((recipe, i) => {
+							return (
+								<Recipe
+									key={i}
+									id={recipe.id}
+									created_by={recipe.created_by}
+									title={recipe.title}
+									desc={recipe.desc}
+									recipe_image={recipe.recipe_image}
+									handleDelete={handleDelete}
+								/>
+							);
+						})
+					) : (
+						<h4 className="my-5">
+							There are no Recipes made by you. Check out{" "}
+							<Link to="/others-recipes" className="link-primary">
+								Other's recipes
+							</Link>{" "}
+							or{" "}
+							<Link to="cook-recipe" className="link-primary">
+								Add your own Recipe
+							</Link>
+						</h4>
+					)
+				) : (
+					searchResult.map((recipe, i) => {
 						return (
 							<Recipe
 								key={i}
@@ -178,17 +204,6 @@ export default function Home(props) {
 							/>
 						);
 					})
-				) : (
-					<h4 className="my-4">
-						There are no Recipes made by you. Check out{" "}
-						<Link to="/others-recipes" className="link-primary">
-							Other's recipes
-						</Link>{" "}
-						or{" "}
-						<Link to="cook-recipe" className="link-primary">
-							Add your own Recipe
-						</Link>
-					</h4>
 				)}
 			</div>
 		</div>

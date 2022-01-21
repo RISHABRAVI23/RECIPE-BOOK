@@ -182,7 +182,7 @@ export default function CookRecipe(props) {
 			procedure_inp.forEach((inp) => {
 				procedure.push(inp.value);
 			});
-			console.log(procedure, ingredients_req);
+			// console.log(procedure, ingredients_req);
 			data.append("created_by", created_by);
 			data.append("title", title);
 			data.append("desc", desc);
@@ -265,6 +265,7 @@ export default function CookRecipe(props) {
 						<img
 							alt="Selected File is not Image"
 							id="recipe-image"
+							style={{ borderRadius: "inherit" }}
 						/>
 					) : (
 						<p className="my-auto">No Image Selected</p>
