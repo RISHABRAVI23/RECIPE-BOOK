@@ -3,7 +3,6 @@ import Navbar from "./Components/Navbar/Navbar";
 import SignUp from "./Components/SignUp/SignUp";
 import SignIn from "./Components/SignIn/SignIn";
 import Home from "./Components/Home/Home";
-import Users from "./Components/Users/Users";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { useState } from "react";
 import Cookies from "js-cookie";
@@ -65,7 +64,6 @@ function App() {
 							<Route path="*" element={<NotFound404 />} />
 						</>
 					)}
-					<Route exact path="/users" element={<Users />} />
 					<Route
 						exact
 						path="/others-recipes"

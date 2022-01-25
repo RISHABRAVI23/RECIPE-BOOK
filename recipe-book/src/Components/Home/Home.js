@@ -141,11 +141,7 @@ export default function Home(props) {
 					<i className="bi bi-plus-circle"></i> Cook a New Recipe
 				</Link>
 			</div>
-			<form
-				className="d-flex"
-				onSubmit={(e) => {
-					e.preventDefault();
-				}}>
+			<div className="d-flex">
 				<input
 					className="form-control me-2 search"
 					type="text"
@@ -155,13 +151,7 @@ export default function Home(props) {
 						searchRecipes();
 					}}
 				/>
-				<button
-					className="btn btn-outline-success search-button"
-					type="submit"
-					disabled>
-					Search
-				</button>
-			</form>
+			</div>
 			<div className="container d-flex justify-content-around">
 				{searchResult.length <= 0 ? (
 					allRecipes.length > 0 ? (

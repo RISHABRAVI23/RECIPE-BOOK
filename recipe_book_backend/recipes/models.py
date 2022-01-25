@@ -6,6 +6,7 @@ from django.utils.timezone import now
 
 # Create your models here.
 
+
 class Recipe(models.Model):
 	created_by = models.CharField(max_length=20, default="", blank=True)
 	title = models.CharField(max_length=50, default="", blank=True)
@@ -18,3 +19,4 @@ class Recipe(models.Model):
 
 	def __str__(self):
 		return self.title
+

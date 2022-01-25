@@ -1,3 +1,5 @@
+import os
+
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -30,23 +32,26 @@ class RecipeListAllPost(APIView):
 		return Response(serializer.data, status=status.HTTP_200_OK)
 	
 	def post(self, req):
-		print(f"data:{req.data}")
+		# print(f"data:{req.data}")
 		serializer = RecipeSerializer(data=req.data)
 		if serializer.is_valid():
 			serializer.save()
-			print(serializer.data)
+			# print(serializer.data)
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		print(serializer.errors)
+		# print(serializer.errors)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RecipeDetail(APIView):
+
 	def get_recipe(self, id):
 		try:
 			recipe = Recipe.objects.get(id=id)
 			return recipe
+
 		except:
 			raise Http404
+
 	def get(self, req, id):
 		return Response(RecipeSerializer(self.get_recipe(id), many=False).data)
 	

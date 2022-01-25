@@ -7,15 +7,15 @@ from .serializers import UserSerializer
 
 # Create your views here.
 
+
 class UsersList(APIView):
 	def get(self, request, format=None):
 		users = User.objects.all()
 		serializer = UserSerializer(users, many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
-	
 
 	def post(self, request):
-		# print(request.data)
+		print(request.data)
 		serializer = UserSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
@@ -42,6 +42,5 @@ class UsersDetail(APIView):
 		
 	def delete(self, request, username):
 		user = self.get_object(username)
-		print(user)
 		user.delete()
 		return Response(status=status.HTTP_202_ACCEPTED)

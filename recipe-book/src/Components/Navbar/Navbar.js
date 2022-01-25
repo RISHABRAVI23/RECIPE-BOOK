@@ -56,13 +56,6 @@ export default function Navbar(props) {
 							<li
 								className="nav-item d-flex align-items-center"
 								style={{ width: "max-content" }}>
-								<Link className="nav-link" to="/users">
-									Other Users
-								</Link>
-							</li>
-							<li
-								className="nav-item d-flex align-items-center"
-								style={{ width: "max-content" }}>
 								<Link className="nav-link" to="/others-recipes">
 									Other's Recipes
 								</Link>
