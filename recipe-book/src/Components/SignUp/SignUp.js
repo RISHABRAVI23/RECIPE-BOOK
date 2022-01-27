@@ -16,16 +16,21 @@ export default function SignUp(props) {
 		let username = document.querySelector("#username").value;
 		let password = document.querySelector("#password").value;
 		let pfp = document.querySelector("#pfp").files;
-		let data = {
-			emailId: emailId,
-			username: username,
-			password: password,
-			profile_pic: pfp,
-		};
+		let data = new FormData();
+
+		data.append("emailId", emailId);
+		data.append("username", username);
+		data.append("password", password);
+		pfp.length > 0 && data.append("pfp", pfp[0]);
+
 		axios
-			.post("http://localhost:8000/users/", data)
+			.post("http://localhost:8000/users/", data, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			})
 			.then((response) => {
-				// console.log(response);
+				console.log(response);
 				let setLoggedIn = props.setLoggedIn;
 				let setLoggedUser = props.setLoggedUser;
 				setLoggedIn(true);
