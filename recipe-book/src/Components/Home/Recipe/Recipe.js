@@ -21,11 +21,10 @@ export default function Recipe({
 				<h4 className="card-title">{title}</h4>
 				<p className="card-text">{desc}</p>
 				<hr />
-				Cook : {created_by} (
+				Cook : {created_by}
 				{created_by === JSON.parse(Cookies.get("info")).loggedUsername
-					? "You"
+					? " (You)"
 					: ""}
-				)
 				<hr />
 				<div className="d-flex justify-content-around">
 					<button className="btn btn-primary">

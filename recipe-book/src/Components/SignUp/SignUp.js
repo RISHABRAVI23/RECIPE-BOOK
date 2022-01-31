@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./SignUp.css";
 
 export default function SignUp(props) {
 	const [passShown, setPassShown] = useState(false);
 	const [error, setError] = useState(false);
-	const navigate = useNavigate();
 	function showPass() {
 		setPassShown(!passShown);
 	}
@@ -15,27 +14,30 @@ export default function SignUp(props) {
 		let emailId = document.querySelector("#emailid").value;
 		let username = document.querySelector("#username").value;
 		let password = document.querySelector("#password").value;
-		let pfp = document.querySelector("#pfp").files;
 		let data = new FormData();
 
 		data.append("emailId", emailId);
 		data.append("username", username);
 		data.append("password", password);
-		pfp.length > 0 && data.append("pfp", pfp[0]);
 
 		axios
 			.post("http://localhost:8000/users/", data, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+				headers: { "content-type": "multipart/form-data" },
 			})
 			.then((response) => {
 				console.log(response);
 				let setLoggedIn = props.setLoggedIn;
 				let setLoggedUser = props.setLoggedUser;
+				let cookie_data = {
+					loggedIn: true,
+					loggedUsername: response.data.username,
+				};
+				Cookies.set("info", JSON.stringify(cookie_data), {
+					expires: 5,
+				});
 				setLoggedIn(true);
-				setLoggedUser(data);
-				navigate("/?signedUp=true");
+				setLoggedUser(response.data.username);
+				window.location = "/?signedIn=true";
 			})
 			.catch((error) => {
 				setError(true);
@@ -107,17 +109,6 @@ export default function SignUp(props) {
 							className="bi bi-eye-slash-fill"
 							id="togglePassword"></i>
 					</label>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="pfp" className="form-label">
-						Profile Picture (Optional)
-					</label>
-					<input
-						type="file"
-						className="form-control"
-						id="pfp"
-						alt="select image"
-					/>
 				</div>
 				<button
 					type="submit"

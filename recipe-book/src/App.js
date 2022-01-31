@@ -44,7 +44,16 @@ function App() {
 							<Route
 								exact
 								path="/"
-								element={<Home loggedUser={loggedUser} />}
+								element={
+									<Home
+										loggedUser={loggedUser}
+										initializeLoggedUser={
+											initializeLoggedUser
+										}
+										setLoggedUser={setLoggedUser}
+										setLoggedIn={setLoggedIn}
+									/>
+								}
 							/>
 							<Route path="*" element={<NotFound404 />} />
 						</>

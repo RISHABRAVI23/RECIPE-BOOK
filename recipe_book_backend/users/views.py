@@ -14,9 +14,9 @@ class UsersList(APIView):
 		serializer = UserSerializer(users, many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
-	def post(self, request):
-		print(request.data)
-		serializer = UserSerializer(data=request.data)
+	def post(self, req):
+		print(f"data:{req.data}")
+		serializer = UserSerializer(data=req.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)

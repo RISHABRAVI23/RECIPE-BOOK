@@ -1,13 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function SignIn(props) {
 	const [passShown, setPassShown] = useState(false);
 	const [error, setError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
-	const navigate = useNavigate();
 	document.querySelector("title").innerHTML = "Sign In | Recipe Book";
 	function showPass() {
 		setPassShown(!passShown);
@@ -21,7 +19,6 @@ export default function SignIn(props) {
 		axios
 			.get(`http://localhost:8000/users/${username}`)
 			.then((response) => {
-				// console.log(response);
 				let user = response.data;
 				if (user.password === password) {
 					props.setLoggedIn(true);
@@ -32,7 +29,7 @@ export default function SignIn(props) {
 					Cookies.set("info", JSON.stringify(cookie_data), {
 						expires: 5,
 					});
-					navigate("/?signedIn=true");
+					window.location = "/?signedIn=true";
 				} else {
 					setPasswordError(true);
 				}

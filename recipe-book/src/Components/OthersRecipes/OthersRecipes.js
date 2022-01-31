@@ -38,7 +38,7 @@ export default function OthersRecipes() {
 		}
 	}
 	return (
-		<div>
+		<div className="container">
 			{error ? (
 				<div
 					className="alert alert-danger alert-dismissible fade show"

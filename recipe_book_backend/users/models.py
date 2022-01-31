@@ -9,8 +9,7 @@ class User(models.Model):
 	emailId = models.EmailField(max_length=50, unique=True)
 	username = models.CharField(max_length=20, unique=True)
 	password = models.CharField(max_length=50)
-	recipes = models.IntegerField(default=0)
-	profile_pic = models.ImageField(upload_to="users/images", default=os.path.join(settings.MEDIA_ROOT,'users', 'images', 'default.png'))
+	profile_pic = models.ImageField(max_length=1000, upload_to="users/images", default=os.path.join(settings.MEDIA_ROOT, 'users', 'images', 'default.png'))
 
 	def __str__(self):
 		return self.username

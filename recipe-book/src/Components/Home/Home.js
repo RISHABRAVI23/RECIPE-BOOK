@@ -9,9 +9,6 @@ export default function Home(props) {
 	const [allRecipes, setAllRecipes] = useState([]);
 	const [searchResult, setSearchResult] = useState([]);
 	const [error, setError] = useState(false);
-	// const [prevPage, setPrevPage] = useState();
-	// const [nextPage, setNextPage] = useState();
-	// const [currentPage, setCurrentPage] = useState();
 
 	function updateRecipes() {
 		axios
@@ -83,6 +80,7 @@ export default function Home(props) {
 			setSearchResult([]);
 		}
 	}
+
 	return (
 		<div className="container">
 			{error ? (
