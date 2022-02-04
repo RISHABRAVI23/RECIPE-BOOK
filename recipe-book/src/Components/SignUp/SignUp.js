@@ -25,9 +25,6 @@ export default function SignUp(props) {
 				headers: { "content-type": "multipart/form-data" },
 			})
 			.then((response) => {
-				console.log(response);
-				let setLoggedIn = props.setLoggedIn;
-				let setLoggedUser = props.setLoggedUser;
 				let cookie_data = {
 					loggedIn: true,
 					loggedUsername: response.data.username,
@@ -35,8 +32,6 @@ export default function SignUp(props) {
 				Cookies.set("info", JSON.stringify(cookie_data), {
 					expires: 5,
 				});
-				setLoggedIn(true);
-				setLoggedUser(response.data.username);
 				window.location = "/?signedIn=true";
 			})
 			.catch((error) => {
