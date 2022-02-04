@@ -19,6 +19,18 @@ export default function ShowNavUser(props) {
 		props.setLoggedIn(false);
 		navigate("/");
 	}
+	function deleteUser(e) {
+		let confirmation = window.confirm(
+			`Are you sure you want to delete the user - ${username}`
+		);
+		if (!confirmation) {
+			return;
+		}
+
+		axios.delete(`http://localhost:8000/users/${username}`).then(() => {
+			logout();
+		});
+	}
 	return (
 		<div className="d-flex flex-row">
 			<img
@@ -59,6 +71,13 @@ export default function ShowNavUser(props) {
 						<li>
 							<button className="dropdown-item" onClick={logout}>
 								Logout
+							</button>
+						</li>
+						<li>
+							<button
+								className="dropdown-item text-danger"
+								onClick={deleteUser}>
+								Delete User
 							</button>
 						</li>
 					</ul>

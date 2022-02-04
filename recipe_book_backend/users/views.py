@@ -1,9 +1,12 @@
+import json
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from users.models import User
 from .serializers import UserSerializer
+from recipes.models import Recipe
+from recipes.serializers import RecipeSerializer
 
 # Create your views here.
 
@@ -15,7 +18,11 @@ class UsersList(APIView):
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
 	def post(self, req):
-		print(f"data:{req.data}")
+		# print(f"data:{req.data}")
+		users = User.objects.all()
+		for user in users:
+			if req.data.username == user.username:
+				return Response(status=status.HTTP_409_CONFLICT)
 		serializer = UserSerializer(data=req.data)
 		if serializer.is_valid():
 			serializer.save()
@@ -43,4 +50,6 @@ class UsersDetail(APIView):
 	def delete(self, request, username):
 		user = self.get_object(username)
 		user.delete()
+		recipes = Recipe.objects.filter(created_by=username, deleted=False)
+		recipes.update(deleted=True)
 		return Response(status=status.HTTP_202_ACCEPTED)

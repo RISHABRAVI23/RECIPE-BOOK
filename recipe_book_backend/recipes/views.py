@@ -13,7 +13,7 @@ from rest_framework.response import Response
 class RecipeList(APIView):
 	def get_using_user(self, username):
 		try:
-			recipes = Recipe.objects.filter(created_by=username)
+			recipes = Recipe.objects.filter(created_by=username, deleted=False)
 			return recipes
 		except:
 			raise Http404
@@ -27,7 +27,7 @@ class RecipeList(APIView):
 class RecipeListAllPost(APIView):
 	
 	def get(self, req):
-		recipes = Recipe.objects.all()
+		recipes = Recipe.objects.filter(deleted=False)
 		serializer = RecipeSerializer(recipes, many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 	
