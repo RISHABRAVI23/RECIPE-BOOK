@@ -4,7 +4,9 @@ import ShowNavUser from "./ShowNavUser/ShowNavUser";
 
 export default function Navbar(props) {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+		<nav
+			className="navbar navbar-expand-lg navbar-light bg-light sticky-top"
+			style={{ zIndex: "1px" }}>
 			<div className="container-fluid">
 				<Link className="navbar-brand" to="/">
 					<svg

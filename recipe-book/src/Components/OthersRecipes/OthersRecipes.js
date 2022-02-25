@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Recipe from "../Home/Recipe/Recipe";
 import axios from "axios";
+import Spinner from "../Spinner/Spinner";
 
 export default function OthersRecipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -75,6 +76,7 @@ export default function OthersRecipes() {
 						/>
 					);
 				})}
+				<Spinner />
 			</div>
 		</div>
 	);
