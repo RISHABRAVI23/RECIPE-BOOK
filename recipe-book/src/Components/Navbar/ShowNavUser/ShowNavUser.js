@@ -12,7 +12,7 @@ export default function ShowNavUser(props) {
 			setUsername(response.data.username);
 			setUserImage(response.data.profile_pic);
 		});
-	});
+	}, [url]);
 	const navigate = useNavigate();
 	function logout(e) {
 		Cookies.remove("info");

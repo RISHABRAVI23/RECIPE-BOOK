@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Recipe from "../Home/Recipe/Recipe";
 import axios from "axios";
-import Spinner from "../Spinner/Spinner";
+import { LoadingContext } from "../../Contexts/LoadingContext";
 
 export default function OthersRecipes() {
 	const [recipes, setRecipes] = useState([]);
 	const [error, setError] = useState(false);
+	const setLoading = useContext(LoadingContext);
 
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8000/recipes/get-all-post`)
 			.then((res) => {
-				console.log(res.data);
+				// setLoading(true);
+				// console.log(res.data);
 				setRecipes(res.data.reverse());
+				// setLoading(false);
 			})
 			.catch((err) => {
 				setError(true);
@@ -76,7 +79,6 @@ export default function OthersRecipes() {
 						/>
 					);
 				})}
-				<Spinner />
 			</div>
 		</div>
 	);

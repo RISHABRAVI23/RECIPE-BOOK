@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Recipe from "./Recipe/Recipe";
+import { LoadingContext } from "../../Contexts/LoadingContext";
 
 export default function Home(props) {
 	const params = window.location.search;
@@ -9,8 +10,10 @@ export default function Home(props) {
 	const [allRecipes, setAllRecipes] = useState([]);
 	const [searchResult, setSearchResult] = useState([]);
 	const [error, setError] = useState(false);
+	const [loading, setLoading] = useContext(LoadingContext);
 
 	function updateRecipes() {
+		setLoading(true);
 		axios
 			.get(`http://localhost:8000/recipes/get/${props.loggedUser}`)
 			.then((res) => {
@@ -18,6 +21,9 @@ export default function Home(props) {
 			})
 			.catch((err) => {
 				setError(true);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	}
 
@@ -143,7 +149,7 @@ export default function Home(props) {
 				<input
 					className="form-control me-2 search"
 					type="text"
-					placeholder="Search"
+					placeholder="Search (If there are no recipes matching, it shows all the recipes.)"
 					aria-label="Search"
 					onChange={(e) => {
 						searchRecipes();
@@ -152,7 +158,7 @@ export default function Home(props) {
 			</div>
 			<div className="container d-flex justify-content-around">
 				{searchResult.length <= 0 ? (
-					allRecipes.length > 0 ? (
+					allRecipes.length > 0 && !loading ? (
 						allRecipes.map((recipe, i) => {
 							return (
 								<Recipe
