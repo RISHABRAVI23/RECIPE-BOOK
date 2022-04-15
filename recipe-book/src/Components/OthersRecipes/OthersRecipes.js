@@ -6,19 +6,22 @@ import { LoadingContext } from "../../Contexts/LoadingContext";
 export default function OthersRecipes() {
 	const [recipes, setRecipes] = useState([]);
 	const [error, setError] = useState(false);
-	const setLoading = useContext(LoadingContext);
+	const [loading, setLoading] = useContext(LoadingContext);
 
 	useEffect(() => {
+		setLoading(true);
 		axios
 			.get(`http://localhost:8000/recipes/get-all-post`)
 			.then((res) => {
-				// setLoading(true);
 				// console.log(res.data);
 				setRecipes(res.data.reverse());
 				// setLoading(false);
 			})
 			.catch((err) => {
 				setError(true);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	}, []);
 
@@ -66,19 +69,20 @@ export default function OthersRecipes() {
 				</h1>
 			</div>
 			<div className="container d-flex justify-content-around">
-				{recipes.map((recipe, i) => {
-					return (
-						<Recipe
-							key={i}
-							id={recipe.id}
-							created_by={recipe.created_by}
-							title={recipe.title}
-							desc={recipe.desc}
-							recipe_image={recipe.recipe_image}
-							handleDelete={handleDelete}
-						/>
-					);
-				})}
+				{!loading &&
+					recipes.map((recipe, i) => {
+						return (
+							<Recipe
+								key={i}
+								id={recipe.id}
+								created_by={recipe.created_by}
+								title={recipe.title}
+								desc={recipe.desc}
+								recipe_image={recipe.recipe_image}
+								handleDelete={handleDelete}
+							/>
+						);
+					})}
 			</div>
 		</div>
 	);

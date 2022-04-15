@@ -201,7 +201,7 @@ export default function CookRecipe(props) {
 					headers: { "content-type": "multipart/form-data" },
 				})
 				.then((res) => {
-					// console.log(res); // check why the arrays are being stored as ["dfoiajwe, fweofnq, ofqiwer"]
+					console.log(res);
 					navigate("/");
 				})
 				.catch((err) => {
