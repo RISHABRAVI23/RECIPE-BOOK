@@ -156,7 +156,9 @@ export default function Home(props) {
 					}}
 				/>
 			</div>
-			<div className="container d-flex justify-content-around">
+			<div
+				className="container d-flex justify-content-around"
+				style={{ flexWrap: "wrap" }}>
 				{searchResult.length <= 0 ? (
 					allRecipes.length > 0 && !loading ? (
 						allRecipes.map((recipe, i) => {

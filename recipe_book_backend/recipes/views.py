@@ -1,5 +1,3 @@
-import os
-
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -55,7 +53,7 @@ class RecipeDetail(APIView):
 	
 	def put(self, request, id, format=None):
 		recipe = self.get_recipe(id)
-		serializer = RecipeSerializer(recipe, data=request.data)
+		serializer = RecipeSerializer(recipe, data=request.data, deleted=False)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data)

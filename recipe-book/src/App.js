@@ -13,6 +13,7 @@ import OthersRecipes from "./Components/OthersRecipes/OthersRecipes";
 import { LoadingContext } from "./Contexts/LoadingContext";
 import Spinner from "./Components/Spinner/Spinner";
 import "./style.css";
+import ViewRecipe from "./Components/ViewRecipe/ViewRecipe";
 
 function App() {
 	function initializeLoggedIn() {
@@ -46,6 +47,16 @@ function App() {
 									exact
 									path="/cook-recipe"
 									element={<CookRecipe />}
+								/>
+								<Route
+									exact
+									path="/view/:id"
+									element={<ViewRecipe />}
+								/>
+								<Route
+									exact
+									path="/others-recipes"
+									element={<OthersRecipes />}
 								/>
 								<Route
 									exact
@@ -87,12 +98,6 @@ function App() {
 								<Route path="*" element={<NotFound404 />} />
 							</>
 						)}
-						<Route
-							exact
-							path="/others-recipes"
-							element={<OthersRecipes />}
-						/>
-						{/* Create Other Recipes link */}
 						<Route
 							exact
 							path="/profile/:username"

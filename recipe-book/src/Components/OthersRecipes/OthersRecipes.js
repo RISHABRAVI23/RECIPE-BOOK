@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext } from "react";
 import Recipe from "../Home/Recipe/Recipe";
 import axios from "axios";

@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Recipe({
 	id,
@@ -9,7 +10,6 @@ export default function Recipe({
 	recipe_image,
 	handleDelete,
 }) {
-	console.log(created_by);
 	return (
 		<div className="card my-5" style={{ width: "18rem" }}>
 			<img
@@ -26,11 +26,11 @@ export default function Recipe({
 				{created_by === JSON.parse(Cookies.get("info")).loggedUsername
 					? " (You)"
 					: ""}
-				{/* <hr /> */}
+				<hr />
 				<div className="d-flex justify-content-around">
-					<button className="btn btn-primary">
+					<Link className="btn btn-primary" to={`/view/${id}`}>
 						<i className="bi bi-binoculars"></i> View
-					</button>
+					</Link>
 					<button
 						className="btn btn-danger"
 						onClick={() => handleDelete(id, title)}>
