@@ -394,8 +394,8 @@ export default function CookRecipe(props) {
 				<label
 					className="input-group-text"
 					id="basic-addon1"
-					htmlFor="precaution">
-					Precautions
+					htmlFor="precautions">
+					Precautions (Optional)
 				</label>
 				<input
 					type="text"

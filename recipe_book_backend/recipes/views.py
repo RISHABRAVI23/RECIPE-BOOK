@@ -30,7 +30,6 @@ class RecipeListAllPost(APIView):
 		return Response(serializer.data, status=status.HTTP_200_OK)
 	
 	def post(self, req):
-		print(f"data:{req.data}")
 		serializer = RecipeSerializer(data=req.data)
 		if serializer.is_valid():
 			serializer.save()
