@@ -54,13 +54,15 @@ export default function Navbar(props) {
 								Home
 							</Link>
 						</li>
-						<li
-							className="nav-item d-flex align-items-center"
-							style={{ width: "max-content" }}>
-							<Link className="nav-link" to="/others-recipes">
-								Other's Recipes
-							</Link>
-						</li>
+						{props.loggedIn && (
+							<li
+								className="nav-item d-flex align-items-center"
+								style={{ width: "max-content" }}>
+								<Link className="nav-link" to="/others-recipes">
+									Other's Recipes
+								</Link>
+							</li>
+						)}
 						<li className="nav-item dropdown d-flex align-items-center">
 							<Link
 								className="nav-link dropdown-toggle"

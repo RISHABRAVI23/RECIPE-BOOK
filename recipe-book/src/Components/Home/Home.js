@@ -87,6 +87,11 @@ export default function Home(props) {
 		}
 	}
 
+	function clearSearch(e) {
+		document.querySelector("input.search").value = "";
+		searchRecipes();
+	}
+
 	return (
 		<div className="container">
 			{error ? (
@@ -145,7 +150,7 @@ export default function Home(props) {
 					<i className="bi bi-plus-circle"></i> Cook a New Recipe
 				</Link>
 			</div>
-			<div className="d-flex">
+			<div className="d-flex align-items-center">
 				<input
 					className="form-control me-2 search"
 					type="text"
@@ -155,25 +160,42 @@ export default function Home(props) {
 						searchRecipes();
 					}}
 				/>
+				<button className="btn-close" onClick={clearSearch}></button>
 			</div>
 			<div
 				className="container d-flex justify-content-around"
 				style={{ flexWrap: "wrap" }}>
 				{searchResult.length <= 0 ? (
 					allRecipes.length > 0 && !loading ? (
-						allRecipes.map((recipe, i) => {
-							return (
-								<Recipe
-									key={i}
-									id={recipe.id}
-									created_by={recipe.created_by}
-									title={recipe.title}
-									desc={recipe.desc}
-									recipe_image={recipe.recipe_image}
-									handleDelete={handleDelete}
-								/>
-							);
-						})
+						document.querySelector("input.search").value === "" ? (
+							allRecipes.map((recipe, i) => {
+								return (
+									<Recipe
+										key={i}
+										id={recipe.id}
+										created_by={recipe.created_by}
+										title={recipe.title}
+										desc={recipe.desc}
+										recipe_image={recipe.recipe_image}
+										handleDelete={handleDelete}
+									/>
+								);
+							})
+						) : (
+							<h4 className="my-5">
+								There are no Recipes made by you that match this
+								search criteria. Check out{" "}
+								<Link
+									to="/others-recipes"
+									className="link-primary">
+									Other's recipes
+								</Link>{" "}
+								or{" "}
+								<Link to="cook-recipe" className="link-primary">
+									Add your own Recipe
+								</Link>
+							</h4>
+						)
 					) : (
 						<h4 className="my-5">
 							There are no Recipes made by you. Check out{" "}
