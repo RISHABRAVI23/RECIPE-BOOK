@@ -141,9 +141,15 @@ export default function CookRecipe(props) {
 	}
 	function checkInputs() {
 		let inputs = document.querySelectorAll("input");
-		for (let i = 0; i < Array.from(inputs).length; i++) {
-			const element = Array.from(inputs)[i];
-			if (element.value === "") {
+		inputs = Array.from(inputs);
+		inputs.push(Array.from(document.querySelectorAll("textarea")));
+
+		for (let i = 1; i < inputs.length; i++) {
+			const element = inputs[i];
+			if (element.value !== "" || element.id === "precautions") {
+				setInputEmpty(false);
+				continue;
+			} else {
 				window.scrollTo({
 					top: document.querySelector(".alert").style.top - 150,
 					left: 0,
@@ -151,11 +157,9 @@ export default function CookRecipe(props) {
 				});
 				setInputEmpty(true);
 				return false;
-			} else {
-				setInputEmpty(false);
-				return true;
 			}
 		}
+		return true;
 	}
 	function submitForm(commence) {
 		if (commence) {
@@ -186,7 +190,7 @@ export default function CookRecipe(props) {
 			data.append("created_by", created_by);
 			data.append("title", title);
 			data.append("desc", desc);
-			data.append("recipe_image", recipe_image);
+			recipe_image && data.append("recipe_image", recipe_image);
 			// data.append("ingredients_req", ingredients_req); //This is wrong
 			// data.append("procedure", procedure);
 			ingredients_req.forEach((ing) => {
@@ -268,7 +272,7 @@ export default function CookRecipe(props) {
 							style={{ borderRadius: "inherit" }}
 						/>
 					) : (
-						<p className="my-auto">No Image Selected</p>
+						<p className="my-auto">Select Image (Optional)</p>
 					)}
 				</label>
 				<input

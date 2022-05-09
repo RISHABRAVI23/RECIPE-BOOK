@@ -57,15 +57,32 @@ export default function ViewRecipe() {
 						<h1 style={{ marginBottom: "30px" }}>
 							<strong>{recipe.title.toUpperCase()}</strong>
 						</h1>
+						<h5 className="text-center">
+							{" "}
+							<strong>
+								{" "}
+								- {recipe.created_by.toUpperCase()}
+							</strong>
+						</h5>
 					</u>
 
-					<div className="desc d-flex flex-column align-items-center">
+					<div className="container d-flex flex-column">
 						<u>
 							<h2>Description</h2>
 						</u>
 						<p style={{ marginBottom: "30px" }}>{recipe.desc}</p>
 					</div>
-					<div className="ing-req d-flex flex-column align-items-center">
+					<div className="container d-flex flex-column">
+						<u>
+							<h2>Ingredients Required</h2>
+						</u>
+						<ul type="circle" style={{ marginBottom: "30px" }}>
+							{recipe.ingredients_req.map((ing) => {
+								return <li>{ing}</li>;
+							})}
+						</ul>
+					</div>
+					<div className="container d-flex flex-column">
 						<u>
 							<h2>Ingredients Required</h2>
 						</u>
