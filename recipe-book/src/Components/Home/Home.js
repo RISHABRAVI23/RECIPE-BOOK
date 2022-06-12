@@ -154,7 +154,7 @@ export default function Home(props) {
 				<input
 					className="form-control me-2 search"
 					type="text"
-					placeholder="Search (If there are no recipes matching, it shows all the recipes.)"
+					placeholder="Search"
 					aria-label="Search"
 					onChange={(e) => {
 						searchRecipes();
