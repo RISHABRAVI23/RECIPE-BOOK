@@ -78,7 +78,7 @@ export default function Navbar(props) {
 								aria-labelledby="navbarDropdown">
 								<li>
 									<p className="dropdown-item">
-										There will soon be an item here ;)
+										COMING SOON ;)
 									</p>
 								</li>
 							</ul>
